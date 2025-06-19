@@ -2,7 +2,6 @@ package com.survey.service.service;
 
 import com.survey.service.model.Member;
 import com.survey.service.model.Participation;
-import com.survey.service.model.Status;
 import com.survey.service.model.Survey;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +32,12 @@ class DataLoaderServiceIntegrationTest {
         //when
         Map<Long, Member> members = dataLoaderService.getMembersById();
         Map<Long, Survey> surveys = dataLoaderService.getSurveysById();
-        Map<Long, Status> statuses = dataLoaderService.getStatusesById();
         Map<Long, List<Participation>> participationsByMember = dataLoaderService.getParticipationsByMemberId();
         Map<Long, List<Participation>> participationsBySurvey = dataLoaderService.getParticipationsBySurveyId();
 
         //then
         assertThat(members).hasSize(4);
         assertThat(surveys).hasSize(3);
-        assertThat(statuses).hasSize(4);
         assertThat(participationsByMember).hasSize(4);
         assertThat(participationsBySurvey).hasSize(3);
     }
@@ -74,20 +71,6 @@ class DataLoaderServiceIntegrationTest {
                 .containsEntry(3L, new Survey(3L, "Test Survey 3", 15, 8, 1));
     }
 
-    @Test
-    void loadData_shouldLoadStatusesCorrectly_whenValidCsvFile() {
-        //given - test CSV files are loaded automatically via @PostConstruct
-
-        //when
-        Map<Long, Status> statuses = dataLoaderService.getStatusesById();
-
-        //then
-        assertThat(statuses)
-                .containsEntry(1L, new Status(1L, "Not asked"))
-                .containsEntry(2L, new Status(2L, "Rejected"))
-                .containsEntry(3L, new Status(3L, "Filtered"))
-                .containsEntry(4L, new Status(4L, "Completed"));
-    }
 
     @Test
     void loadData_shouldLoadParticipationsCorrectly_whenValidCsvFile() {

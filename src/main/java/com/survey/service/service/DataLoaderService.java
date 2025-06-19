@@ -37,8 +37,6 @@ public class DataLoaderService {
     @Value("${data.surveys.file}")
     private String surveysFilePath;
 
-    @Value("${data.statuses.file}")
-    private String statusesFilePath;
 
     @Value("${data.participation.file}")
     private String participationFilePath;
@@ -50,7 +48,6 @@ public class DataLoaderService {
     // Data storage maps
     private final Map<Long, Member> membersById = new HashMap<>();
     private final Map<Long, Survey> surveysById = new HashMap<>();
-    private final Map<Long, Status> statusesById = new HashMap<>();
     private final Map<Long, List<Participation>> participationsByMemberId = new HashMap<>();
     private final Map<Long, List<Participation>> participationsBySurveyId = new HashMap<>();
 
@@ -60,11 +57,10 @@ public class DataLoaderService {
 
         loadMembers();
         loadSurveys();
-        loadStatuses();
         loadParticipations();
 
-        logger.info("Data loading completed. Loaded {} members, {} surveys, {} statuses, {} participations",
-                membersById.size(), surveysById.size(), statusesById.size(),
+        logger.info("Data loading completed. Loaded {} members, {} surveys, {} participations",
+                membersById.size(), surveysById.size(),
                 participationsByMemberId.values().stream().mapToInt(List::size).sum());
     }
 
@@ -76,9 +72,6 @@ public class DataLoaderService {
         loadCsvData(surveysFilePath, "surveys", this::parseSurveyRecord, surveysById::put);
     }
 
-    private void loadStatuses() {
-        loadCsvData(statusesFilePath, "statuses", this::parseStatusRecord, statusesById::put);
-    }
 
     private void loadParticipations() {
         loadCsvData(participationFilePath, "participations", this::parseParticipationRecord, this::storeParticipation);
@@ -131,11 +124,6 @@ public class DataLoaderService {
         return new Survey(id, name, expectedCompletes, completionPoints, filteredPoints);
     }
 
-    private Status parseStatusRecord(CSVRecord record) {
-        Long id = Long.parseLong(record.get("Status Id"));
-        String name = record.get("Name");
-        return new Status(id, name);
-    }
 
     private Participation parseParticipationRecord(CSVRecord record) {
         Long memberId = Long.parseLong(record.get("Member Id"));
@@ -178,9 +166,6 @@ public class DataLoaderService {
         return Map.copyOf(surveysById);
     }
 
-    public Map<Long, Status> getStatusesById() {
-        return Map.copyOf(statusesById);
-    }
 
     public Map<Long, List<Participation>> getParticipationsByMemberId() {
         return Map.copyOf(participationsByMemberId);
