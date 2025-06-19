@@ -2,7 +2,6 @@ package com.survey.service.service;
 
 import com.survey.service.model.Member;
 import com.survey.service.model.Participation;
-import com.survey.service.model.Status;
 import com.survey.service.model.Survey;
 import jakarta.annotation.PostConstruct;
 import org.apache.commons.csv.CSVFormat;
@@ -146,7 +145,6 @@ public class DataLoaderService {
         return switch (entity) {
             case Member member -> member.id();
             case Survey survey -> survey.id();
-            case Status status -> status.id();
             case Participation participation -> participation.memberId();
             default -> throw new IllegalArgumentException("Unknown entity type: " + entity.getClass());
         };

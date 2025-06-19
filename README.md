@@ -41,6 +41,8 @@ java -jar target/survey-service-0.0.1-SNAPSHOT.jar
 
 The application will start on `http://localhost:8080`
 
+```
+
 ### Available Endpoints
 
 - `GET /api/surveys/{surveyId}/completed-respondents` - Get members who completed a survey
@@ -49,4 +51,4 @@ The application will start on `http://localhost:8080`
 - `GET /api/members/{memberId}/completed-surveys` - Get surveys completed by a member
 - `GET /api/members/{memberId}/points` - Get points earned by a member
 
-See `http-examples/` folder for sample HTTP requests.
+See `src/test/resources/http-examples/` folder for sample HTTP requests.

@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class SurveyAnalyticsStatisticsService {
+public class SurveyStatisticsService {
 
     private final DataLoaderService dataLoaderService;
 
-    public SurveyAnalyticsStatisticsService(DataLoaderService dataLoaderService) {
+    public SurveyStatisticsService(DataLoaderService dataLoaderService) {
         this.dataLoaderService = dataLoaderService;
     }
 
@@ -54,7 +54,7 @@ public class SurveyAnalyticsStatisticsService {
                 case COMPLETED -> completes++;
                 case FILTERED -> filtered++;
                 case REJECTED -> rejected++;
-                default -> { /* ignore NOT_ASKED and other statuses */ }
+                case NOT_ASKED -> { /* Explicitly ignore NOT_ASKED status */ }
             }
         }
 

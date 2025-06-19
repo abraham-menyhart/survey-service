@@ -69,7 +69,7 @@ class InvitableMembersServiceTest extends BaseServiceTest {
         //when & then
         assertThatThrownBy(() -> invitableMembersService.fetchInvitableMembersForSurvey(nonExistentSurveyId))
                 .isInstanceOf(SurveyNotFoundException.class)
-                .hasMessage("Survey with ID 999 not found");
+                .hasMessage("Survey with ID 999 not found. Please check if the survey exists and try again.");
     }
 
     @Test

@@ -5,7 +5,7 @@ import com.survey.service.exception.SurveyNotFoundException;
 import com.survey.service.model.Member;
 import com.survey.service.service.CompletedRespondentsService;
 import com.survey.service.service.InvitableMembersService;
-import com.survey.service.service.SurveyAnalyticsStatisticsService;
+import com.survey.service.service.SurveyStatisticsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ class SurveyControllerTest {
     private InvitableMembersService invitableMembersService;
 
     @MockBean
-    private SurveyAnalyticsStatisticsService surveyAnalyticsStatisticsService;
+    private SurveyStatisticsService surveyStatisticsService;
 
     private Member testMember;
     private SurveyStatisticsDto testStatistics;
@@ -125,7 +125,7 @@ class SurveyControllerTest {
         //when & then
         mockMvc.perform(get("/api/surveys/{surveyId}/invitable-members", surveyId))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Survey with ID 999 not found"));
+                .andExpect(jsonPath("$.message").value("Survey with ID 999 not found. Please check if the survey exists and try again."));
     }
 
     @Test
@@ -153,7 +153,7 @@ class SurveyControllerTest {
     @Test
     void getSurveyStatistics_shouldReturnOk_whenStatisticsExist() throws Exception {
         //given
-        when(surveyAnalyticsStatisticsService.fetchSurveyStatistics())
+        when(surveyStatisticsService.fetchSurveyStatistics())
                 .thenReturn(List.of(testStatistics));
 
         //when & then
@@ -164,7 +164,7 @@ class SurveyControllerTest {
     @Test
     void getSurveyStatistics_shouldReturnOk_whenNoStatistics() throws Exception {
         //given
-        when(surveyAnalyticsStatisticsService.fetchSurveyStatistics())
+        when(surveyStatisticsService.fetchSurveyStatistics())
                 .thenReturn(List.of());
 
         //when & then

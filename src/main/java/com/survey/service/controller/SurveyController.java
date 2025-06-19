@@ -4,7 +4,7 @@ import com.survey.service.dto.SurveyStatisticsDto;
 import com.survey.service.model.Member;
 import com.survey.service.service.CompletedRespondentsService;
 import com.survey.service.service.InvitableMembersService;
-import com.survey.service.service.SurveyAnalyticsStatisticsService;
+import com.survey.service.service.SurveyStatisticsService;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,14 +22,14 @@ public class SurveyController {
 
     private final CompletedRespondentsService completedRespondentsService;
     private final InvitableMembersService invitableMembersService;
-    private final SurveyAnalyticsStatisticsService surveyAnalyticsStatisticsService;
+    private final SurveyStatisticsService surveyStatisticsService;
 
     public SurveyController(CompletedRespondentsService completedRespondentsService,
                             InvitableMembersService invitableMembersService,
-                            SurveyAnalyticsStatisticsService surveyAnalyticsStatisticsService) {
+                            SurveyStatisticsService surveyStatisticsService) {
         this.completedRespondentsService = completedRespondentsService;
         this.invitableMembersService = invitableMembersService;
-        this.surveyAnalyticsStatisticsService = surveyAnalyticsStatisticsService;
+        this.surveyStatisticsService = surveyStatisticsService;
     }
 
     @GetMapping("/{surveyId}/completed-respondents")
@@ -48,7 +48,7 @@ public class SurveyController {
 
     @GetMapping("/statistics")
     public ResponseEntity<List<SurveyStatisticsDto>> getSurveyStatistics() {
-        List<SurveyStatisticsDto> statistics = surveyAnalyticsStatisticsService.fetchSurveyStatistics();
+        List<SurveyStatisticsDto> statistics = surveyStatisticsService.fetchSurveyStatistics();
         return ResponseEntity.ok(statistics);
     }
 

@@ -11,13 +11,13 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.lenient;
 
-class SurveyAnalyticsStatisticsServiceTest extends BaseServiceTest {
+class SurveyStatisticsServiceTest extends BaseServiceTest {
 
-    private SurveyAnalyticsStatisticsService surveyAnalyticsStatisticsService;
+    private SurveyStatisticsService surveyStatisticsService;
 
     @BeforeEach
     void setUp() {
-        surveyAnalyticsStatisticsService = new SurveyAnalyticsStatisticsService(dataLoaderService);
+        surveyStatisticsService = new SurveyStatisticsService(dataLoaderService);
     }
 
     @Test
@@ -25,7 +25,7 @@ class SurveyAnalyticsStatisticsServiceTest extends BaseServiceTest {
         //given
 
         //when
-        List<SurveyStatisticsDto> result = surveyAnalyticsStatisticsService.fetchSurveyStatistics();
+        List<SurveyStatisticsDto> result = surveyStatisticsService.fetchSurveyStatistics();
 
         //then
         assertThat(result).hasSize(4);
@@ -46,7 +46,7 @@ class SurveyAnalyticsStatisticsServiceTest extends BaseServiceTest {
         lenient().when(dataLoaderService.getParticipationsBySurveyId()).thenReturn(emptyParticipations);
 
         //when
-        List<SurveyStatisticsDto> result = surveyAnalyticsStatisticsService.fetchSurveyStatistics();
+        List<SurveyStatisticsDto> result = surveyStatisticsService.fetchSurveyStatistics();
 
         //then
         assertThat(result).hasSize(4);
@@ -67,7 +67,7 @@ class SurveyAnalyticsStatisticsServiceTest extends BaseServiceTest {
         lenient().when(dataLoaderService.getParticipationsBySurveyId()).thenReturn(participationsWithNulls);
 
         //when
-        List<SurveyStatisticsDto> result = surveyAnalyticsStatisticsService.fetchSurveyStatistics();
+        List<SurveyStatisticsDto> result = surveyStatisticsService.fetchSurveyStatistics();
 
         //then
         SurveyStatisticsDto survey2Stats = findStatsBySurveyId(result, 2L);

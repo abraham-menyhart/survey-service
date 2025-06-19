@@ -54,6 +54,17 @@ paths:
                 status: 400
                 error: "Invalid request parameter"
                 message: "surveyId must be a positive number"
+        '404':
+          description: Survey not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 404
+                error: "Not Found"
+                message: "Survey with ID 999 not found. Please check if the survey exists and try again."
         '500':
           description: Internal server error
           content:
@@ -107,6 +118,17 @@ paths:
                 status: 400
                 error: "Invalid request parameter"
                 message: "surveyId must be a positive number"
+        '404':
+          description: Survey not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 404
+                error: "Not Found"
+                message: "Survey with ID 999 not found. Please check if the survey exists and try again."
         '500':
           description: Internal server error
           content:
