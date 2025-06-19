@@ -13,13 +13,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 @SpringBootTest
-@TestPropertySource(properties = {
-        "data.members.file=classpath:data/test-members.csv",
-        "data.surveys.file=classpath:data/test-surveys.csv",
-        "data.statuses.file=classpath:data/test-statuses.csv",
-        "data.participation.file=classpath:data/test-participation.csv"
-})
+@TestPropertySource(locations = "classpath:application-test.properties")
 class DataLoaderServiceIntegrationTest {
 
     @Autowired
