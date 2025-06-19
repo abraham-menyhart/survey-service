@@ -1,0 +1,307 @@
+openapi: 3.0.3
+info:
+  title: Survey Service API
+  description: API for managing survey participants, member points, and survey statistics
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /api/surveys/{surveyId}/completed-respondents:
+    get:
+      summary: Get completed respondents for a survey
+      description: Fetch all the respondents who completed the questionnaire for the given survey id
+      operationId: getCompletedRespondents
+      tags:
+        - Survey
+      parameters:
+        - name: surveyId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the survey
+          example: 1
+      responses:
+        '200':
+          description: List of members who completed the survey
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Member'
+              example:
+                - id: 1
+                  fullName: "John Doe"
+                  email: "john.doe@example.com"
+                  isActive: true
+                - id: 2
+                  fullName: "Jane Smith"
+                  email: "jane.smith@example.com"
+                  isActive: true
+        '500':
+          description: Internal server error
+
+  /api/surveys/{surveyId}/invitable-members:
+    get:
+      summary: Get invitable members for a survey
+      description: Fetch the list of members who can be invited for the given survey (not participated in that survey yet and active)
+      operationId: getInvitableMembers
+      tags:
+        - Survey
+      parameters:
+        - name: surveyId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the survey
+          example: 1
+      responses:
+        '200':
+          description: List of members who can be invited to the survey
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Member'
+              example:
+                - id: 3
+                  fullName: "Bob Johnson"
+                  email: "bob.johnson@example.com"
+                  isActive: true
+        '500':
+          description: Internal server error
+
+  /api/surveys/statistics:
+    get:
+      summary: Get survey statistics
+      description: Fetch the list of surveys with statistics including survey details, completion counts, and average length
+      operationId: getSurveyStatistics
+      tags:
+        - Survey
+      responses:
+        '200':
+          description: List of survey statistics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SurveyStatistics'
+              example:
+                - surveyId: 1
+                  surveyName: "Customer Satisfaction Survey"
+                  numberOfCompletes: 150
+                  numberOfFiltered: 25
+                  numberOfRejected: 10
+                  averageLength: 12.5
+                - surveyId: 2
+                  surveyName: "Product Feedback Survey"
+                  numberOfCompletes: 200
+                  numberOfFiltered: 30
+                  numberOfRejected: 15
+                  averageLength: 8.7
+        '500':
+          description: Internal server error
+
+  /api/members/{memberId}/completed-surveys:
+    get:
+      summary: Get completed surveys by member
+      description: Fetch all the surveys that were completed by the given member id
+      operationId: getCompletedSurveys
+      tags:
+        - Member
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the member
+          example: 1
+      responses:
+        '200':
+          description: List of surveys completed by the member
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Survey'
+              example:
+                - id: 1
+                  name: "Customer Satisfaction Survey"
+                  expectedCompletes: 200
+                  completionPoints: 50
+                  filteredPoints: 25
+                - id: 2
+                  name: "Product Feedback Survey"
+                  expectedCompletes: 300
+                  completionPoints: 75
+                  filteredPoints: 30
+        '500':
+          description: Internal server error
+
+  /api/members/{memberId}/points:
+    get:
+      summary: Get member points
+      description: Fetch the list of points (with the related survey id) that the member collected so far
+      operationId: getMemberPoints
+      tags:
+        - Member
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The ID of the member
+          example: 1
+      responses:
+        '200':
+          description: List of points earned by the member for each survey
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemberPoints'
+              example:
+                - surveyId: 1
+                  points: 50
+                - surveyId: 2
+                  points: 25
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    Member:
+      type: object
+      description: Represents a survey member
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the member
+          example: 1
+        fullName:
+          type: string
+          description: Full name of the member
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          description: Email address of the member
+          example: "john.doe@example.com"
+        isActive:
+          type: boolean
+          description: Whether the member is currently active
+          example: true
+      required:
+        - id
+        - fullName
+        - email
+        - isActive
+
+    Survey:
+      type: object
+      description: Represents a survey
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the survey
+          example: 1
+        name:
+          type: string
+          description: Name of the survey
+          example: "Customer Satisfaction Survey"
+        expectedCompletes:
+          type: integer
+          description: Expected number of survey completions
+          example: 200
+        completionPoints:
+          type: integer
+          description: Points awarded for completing the survey
+          example: 50
+        filteredPoints:
+          type: integer
+          description: Points awarded when filtered out of survey
+          example: 25
+      required:
+        - id
+        - name
+        - expectedCompletes
+        - completionPoints
+        - filteredPoints
+
+    MemberPoints:
+      type: object
+      description: Represents points earned by a member for a specific survey
+      properties:
+        surveyId:
+          type: integer
+          format: int64
+          description: ID of the survey for which points were earned
+          example: 1
+        points:
+          type: integer
+          description: Number of points earned
+          example: 50
+      required:
+        - surveyId
+        - points
+
+    SurveyStatistics:
+      type: object
+      description: Statistical information about a survey
+      properties:
+        surveyId:
+          type: integer
+          format: int64
+          description: Unique identifier for the survey
+          example: 1
+        surveyName:
+          type: string
+          description: Name of the survey
+          example: "Customer Satisfaction Survey"
+        numberOfCompletes:
+          type: integer
+          description: Number of completed responses
+          example: 150
+        numberOfFiltered:
+          type: integer
+          description: Number of filtered responses
+          example: 25
+        numberOfRejected:
+          type: integer
+          description: Number of rejected responses
+          example: 10
+        averageLength:
+          type: number
+          format: double
+          description: Average time spent on survey in minutes
+          example: 12.5
+      required:
+        - surveyId
+        - surveyName
+        - numberOfCompletes
+        - numberOfFiltered
+        - numberOfRejected
+        - averageLength
+
+tags:
+  - name: Survey
+    description: Survey-related operations
+  - name: Member
+    description: Member-related operations
