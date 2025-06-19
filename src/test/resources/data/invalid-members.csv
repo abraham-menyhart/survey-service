@@ -1,0 +1,4 @@
+Member Id,Full name,E-mail address,Is Active
+1,John Doe,john.doe@example.com,1
+invalid_id,Jane Smith,jane.smith@example.com,1
+3,Bob Wilson,bob.wilson@example.com,invalid_active
