@@ -28,7 +28,7 @@ class SurveyAnalyticsStatisticsServiceTest extends BaseServiceTest {
         List<SurveyStatisticsDto> result = surveyAnalyticsStatisticsService.fetchSurveyStatistics();
 
         //then
-        assertThat(result).hasSize(3);
+        assertThat(result).hasSize(4);
 
         SurveyStatisticsDto survey1Stats = findStatsBySurveyId(result, 1L);
         assertThat(survey1Stats.surveyId()).isEqualTo(1L);
@@ -49,7 +49,7 @@ class SurveyAnalyticsStatisticsServiceTest extends BaseServiceTest {
         List<SurveyStatisticsDto> result = surveyAnalyticsStatisticsService.fetchSurveyStatistics();
 
         //then
-        assertThat(result).hasSize(3);
+        assertThat(result).hasSize(4);
         assertThat(result).allMatch(stats ->
                 stats.numberOfCompletes() == 0 &&
                         stats.numberOfFiltered() == 0 &&

@@ -1,6 +1,7 @@
 package com.survey.service.controller;
 
 import com.survey.service.dto.SurveyStatisticsDto;
+import com.survey.service.exception.SurveyNotFoundException;
 import com.survey.service.model.Member;
 import com.survey.service.service.CompletedRespondentsService;
 import com.survey.service.service.InvitableMembersService;
@@ -105,13 +106,26 @@ class SurveyControllerTest {
     @Test
     void getInvitableMembers_shouldReturnOk_whenNoInvitableMembers() throws Exception {
         //given
-        Long surveyId = 999L;
+        Long surveyId = 1L; // Using valid survey ID
         when(invitableMembersService.fetchInvitableMembersForSurvey(eq(surveyId)))
                 .thenReturn(List.of());
 
         //when & then
         mockMvc.perform(get("/api/surveys/{surveyId}/invitable-members", surveyId))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void getInvitableMembers_shouldReturnNotFound_whenSurveyNotFound() throws Exception {
+        //given
+        Long surveyId = 999L;
+        when(invitableMembersService.fetchInvitableMembersForSurvey(eq(surveyId)))
+                .thenThrow(new SurveyNotFoundException(surveyId));
+
+        //when & then
+        mockMvc.perform(get("/api/surveys/{surveyId}/invitable-members", surveyId))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Survey with ID 999 not found"));
     }
 
     @Test

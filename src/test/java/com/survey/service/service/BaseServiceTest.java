@@ -42,7 +42,8 @@ public abstract class BaseServiceTest {
         testSurveys = Map.of(
                 1L, new Survey(1L, "Survey 1", 10, 5, 2),
                 2L, new Survey(2L, "Survey 2", 20, 10, 3),
-                3L, new Survey(3L, "Survey 3", 15, 8, 1)
+                3L, new Survey(3L, "Survey 3", 15, 8, 1),
+                4L, new Survey(4L, "Survey 4", 25, 12, 4)
         );
 
         testParticipationsByMember = Map.of(

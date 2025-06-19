@@ -1,5 +1,6 @@
 package com.survey.service.service;
 
+import com.survey.service.exception.SurveyNotFoundException;
 import com.survey.service.model.Member;
 import com.survey.service.model.Participation;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class InvitableMembersService {
     }
 
     public List<Member> fetchInvitableMembersForSurvey(Long surveyId) {
+        validateSurveyExists(surveyId);
+        
         Map<Long, Member> membersById = dataLoaderService.getMembersById();
         Set<Long> participatedMemberIds = getParticipatedMemberIds(surveyId);
 
@@ -38,5 +41,11 @@ public class InvitableMembersService {
                 .filter(Member::isActive)
                 .filter(member -> !participatedMemberIds.contains(member.id()))
                 .toList();
+    }
+
+    private void validateSurveyExists(Long surveyId) {
+        if (!dataLoaderService.getSurveysById().containsKey(surveyId)) {
+            throw new SurveyNotFoundException(surveyId);
+        }
     }
 }

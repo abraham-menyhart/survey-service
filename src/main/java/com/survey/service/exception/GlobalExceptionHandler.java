@@ -63,6 +63,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
+    @ExceptionHandler(SurveyNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleSurveyNotFound(SurveyNotFoundException ex) {
+        logger.warn("Survey not found: {}", ex.getMessage());
+
+        Map<String, Object> errorResponse = createErrorResponse(
+                HttpStatus.NOT_FOUND,
+                "Survey not found",
+                ex.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
 
     private Map<String, Object> createErrorResponse(HttpStatus status, String error, String message) {
         Map<String, Object> errorResponse = new HashMap<>();
