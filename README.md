@@ -41,7 +41,6 @@ java -jar target/survey-service-0.0.1-SNAPSHOT.jar
 
 The application will start on `http://localhost:8080`
 
-```
 
 ### Available Endpoints
 
@@ -52,3 +51,26 @@ The application will start on `http://localhost:8080`
 - `GET /api/members/{memberId}/points` - Get points earned by a member
 
 See `src/test/resources/http-examples/` folder for sample HTTP requests.
+
+## Data Model
+
+The service loads data from CSV files on startup:
+
+- `members.csv` - Member information
+- `surveys.csv` - Survey definitions
+- `participation.csv` - Member participation records
+
+### Design Decision: Status as Enum
+
+The original requirements mentioned a `statuses.csv` file, but I implemented participation statuses as an enum (
+`ParticipationStatus`) instead. This decision was made because:
+
+- The statuses (Not Asked, Rejected, Filtered, Completed) represent a fixed set of values
+- They have specific business logic associated with them (e.g., which statuses are eligible for points)
+- An enum provides type safety and prevents invalid status values
+- In a real-world scenario, I would recommend to business stakeholders that such fixed values should be implemented as
+  enums rather than loaded from CSV files
+
+## API Documentation
+
+OpenAPI/Swagger documentation is available at `openapi.yaml` in the project root.
