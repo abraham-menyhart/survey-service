@@ -43,8 +43,28 @@ paths:
                   fullName: "Jane Smith"
                   email: "jane.smith@example.com"
                   isActive: true
+        '400':
+          description: Invalid survey ID format or negative/zero survey ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 400
+                error: "Invalid request parameter"
+                message: "surveyId must be a positive number"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 500
+                error: "Internal server error"
+                message: "An unexpected error occurred"
 
   /api/surveys/{surveyId}/invitable-members:
     get:
@@ -76,8 +96,28 @@ paths:
                   fullName: "Bob Johnson"
                   email: "bob.johnson@example.com"
                   isActive: true
+        '400':
+          description: Invalid survey ID format or negative/zero survey ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 400
+                error: "Invalid request parameter"
+                message: "surveyId must be a positive number"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 500
+                error: "Internal server error"
+                message: "An unexpected error occurred"
 
   /api/surveys/statistics:
     get:
@@ -110,6 +150,15 @@ paths:
                   averageLength: 8.7
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 500
+                error: "Internal server error"
+                message: "An unexpected error occurred"
 
   /api/members/{memberId}/completed-surveys:
     get:
@@ -147,8 +196,28 @@ paths:
                   expectedCompletes: 300
                   completionPoints: 75
                   filteredPoints: 30
+        '400':
+          description: Invalid member ID format or negative/zero member ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 400
+                error: "Invalid request parameter"
+                message: "memberId must be a positive number"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 500
+                error: "Internal server error"
+                message: "An unexpected error occurred"
 
   /api/members/{memberId}/points:
     get:
@@ -180,8 +249,28 @@ paths:
                   points: 50
                 - surveyId: 2
                   points: 25
+        '400':
+          description: Invalid member ID format or negative/zero member ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 400
+                error: "Invalid request parameter"
+                message: "memberId must be a positive number"
         '500':
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                timestamp: "2025-06-19T10:30:00"
+                status: 500
+                error: "Internal server error"
+                message: "An unexpected error occurred"
 
 components:
   schemas:
@@ -299,6 +388,33 @@ components:
         - numberOfFiltered
         - numberOfRejected
         - averageLength
+
+    ErrorResponse:
+      type: object
+      description: Error response format
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the error occurred
+          example: "2025-06-19T10:30:00"
+        status:
+          type: integer
+          description: HTTP status code
+          example: 400
+        error:
+          type: string
+          description: Error type description
+          example: "Invalid request parameter"
+        message:
+          type: string
+          description: Detailed error message
+          example: "surveyId must be a positive number"
+      required:
+        - timestamp
+        - status
+        - error
+        - message
 
 tags:
   - name: Survey

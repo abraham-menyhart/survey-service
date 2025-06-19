@@ -1,0 +1,17 @@
+### Get completed respondents for a survey
+
+### Valid survey ID with respondents
+GET http://localhost:8080/api/surveys/1/completed-respondents
+Accept: application/json
+
+### Valid survey ID with no respondents
+GET http://localhost:8080/api/surveys/999/completed-respondents
+Accept: application/json
+
+### Invalid survey ID - negative (should return 400)
+GET http://localhost:8080/api/surveys/-1/completed-respondents
+Accept: application/json
+
+### Invalid survey ID - zero (should return 400)
+GET http://localhost:8080/api/surveys/0/completed-respondents
+Accept: application/json

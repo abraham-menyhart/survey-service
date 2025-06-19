@@ -1,0 +1,17 @@
+### Get member points
+
+### Valid member ID with points
+GET http://localhost:8080/api/members/1/points
+Accept: application/json
+
+### Valid member ID with no points
+GET http://localhost:8080/api/members/999/points
+Accept: application/json
+
+### Invalid member ID - negative (should return 400)
+GET http://localhost:8080/api/members/-1/points
+Accept: application/json
+
+### Invalid member ID - zero (should return 400)
+GET http://localhost:8080/api/members/0/points
+Accept: application/json

@@ -1,0 +1,5 @@
+### Get survey statistics
+
+### Get all survey statistics
+GET http://localhost:8080/api/surveys/statistics
+Accept: application/json

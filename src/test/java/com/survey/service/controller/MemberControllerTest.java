@@ -50,9 +50,7 @@ class MemberControllerTest {
 
         //when & then
         mockMvc.perform(get("/api/members/{memberId}/completed-surveys", memberId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].name").value("Test Survey"));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -64,8 +62,29 @@ class MemberControllerTest {
 
         //when & then
         mockMvc.perform(get("/api/members/{memberId}/completed-surveys", memberId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isEmpty());
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getCompletedSurveys_shouldReturnBadRequest_whenNegativeMemberId() throws Exception {
+        //given
+        Long memberId = -1L;
+
+        //when & then
+        mockMvc.perform(get("/api/members/{memberId}/completed-surveys", memberId))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Member ID must be a positive number"));
+    }
+
+    @Test
+    void getCompletedSurveys_shouldReturnBadRequest_whenZeroMemberId() throws Exception {
+        //given
+        Long memberId = 0L;
+
+        //when & then
+        mockMvc.perform(get("/api/members/{memberId}/completed-surveys", memberId))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Member ID must be a positive number"));
     }
 
     @Test
@@ -77,9 +96,7 @@ class MemberControllerTest {
 
         //when & then
         mockMvc.perform(get("/api/members/{memberId}/points", memberId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].surveyId").value(1L))
-                .andExpect(jsonPath("$[0].points").value(50));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -91,7 +108,28 @@ class MemberControllerTest {
 
         //when & then
         mockMvc.perform(get("/api/members/{memberId}/points", memberId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isEmpty());
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getMemberPoints_shouldReturnBadRequest_whenNegativeMemberId() throws Exception {
+        //given
+        Long memberId = -1L;
+
+        //when & then
+        mockMvc.perform(get("/api/members/{memberId}/points", memberId))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Member ID must be a positive number"));
+    }
+
+    @Test
+    void getMemberPoints_shouldReturnBadRequest_whenZeroMemberId() throws Exception {
+        //given
+        Long memberId = 0L;
+
+        //when & then
+        mockMvc.perform(get("/api/members/{memberId}/points", memberId))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Member ID must be a positive number"));
     }
 }

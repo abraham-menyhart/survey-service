@@ -1,0 +1,17 @@
+### Get completed surveys for a member
+
+### Valid member ID with completed surveys
+GET http://localhost:8080/api/members/1/completed-surveys
+Accept: application/json
+
+### Valid member ID with no completed surveys
+GET http://localhost:8080/api/members/999/completed-surveys
+Accept: application/json
+
+### Invalid member ID - negative (should return 400)
+GET http://localhost:8080/api/members/-1/completed-surveys
+Accept: application/json
+
+### Invalid member ID - zero (should return 400)
+GET http://localhost:8080/api/members/0/completed-surveys
+Accept: application/json

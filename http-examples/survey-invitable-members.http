@@ -1,0 +1,17 @@
+### Get invitable members for a survey
+
+### Valid survey ID with invitable members
+GET http://localhost:8080/api/surveys/1/invitable-members
+Accept: application/json
+
+### Valid survey ID with no invitable members
+GET http://localhost:8080/api/surveys/9999/invitable-members
+Accept: application/json
+
+### Invalid survey ID - negative (should return 400)
+GET http://localhost:8080/api/surveys/-1/invitable-members
+Accept: application/json
+
+### Invalid survey ID - zero (should return 400)
+GET http://localhost:8080/api/surveys/0/invitable-members
+Accept: application/json
